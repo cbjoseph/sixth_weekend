@@ -5,7 +5,13 @@
 # divisible by itself and the number 1.
 
 def is_prime?(number)
-
+  if number / 
+    puts true
+  elsif number / 1 == number
+    puts true
+  else 
+    puts false
+  end
 end
 
 # Second, implement the highest_prime_number_under method below. It should accept a number as
@@ -15,3 +21,5 @@ end
 def highest_prime_number_under(number)
 
 end
+
+is_prime?(6)
