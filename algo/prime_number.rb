@@ -18,7 +18,19 @@ end
 # # highest prime number under 10 is 7.
 
 def highest_prime_number_under(number)
-
+  all_numbers = []
+  number.times do
+    number = number - 1
+    all_numbers << number
+  end
+  all_numbers.each do |one_number|
+    if Prime.instance.prime?(one_number)
+      puts one_number
+      break
+    end
+  end
 end
 
-is_prime?(6)
+is_prime?(5)
+
+highest_prime_number_under(10)
