@@ -52,6 +52,8 @@ class Thesaurus
     @words << input[:word]
     @synonyms = []
     @synonyms << input[:synonym]
+    @antonyms = []
+    @antonyms << input[:antonym]
   end
   
   def add_new_word(word)
@@ -69,6 +71,17 @@ class Thesaurus
     @words.length.times do
       if @words[number] == word
       return @synonyms[number] 
+      break
+      end
+      number = number + 1
+    end
+  end
+
+  def look_up_antonym(word)
+    number = 0
+    @words.length.times do
+      if @words[number] == word
+      return @antonyms[number] 
       break
       end
       number = number + 1
@@ -96,6 +109,12 @@ RSpec.describe Thesaurus do
       thesaurus = Thesaurus.new(word: "happy", synonym: "joyful")
       thesaurus.add_new_word("basketball")
       expect(thesaurus.look_up_synonym("happy")).to eq("joyful")
+    end
+  end
+  describe '#look_up_antonym' do
+    it 'should look up the antonym for given word' do
+      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful", antonym: "sad")
+      expect(thesaurus.look_up_antonym("happy")).to eq("sad")
     end
   end
 end
