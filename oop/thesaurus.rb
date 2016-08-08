@@ -55,16 +55,6 @@ class Thesaurus
     @antonyms = []
     @antonyms << input[:antonym]
   end
-  
-  def add_new_word(word)
-    @words << word
-    return @words
-  end
-
-  def delete_word(word)
-    @words.delete(word)
-    return @words
-  end
 
   def look_up_synonym(word)
     number = 0
@@ -89,16 +79,28 @@ class Thesaurus
   end
 end
 
+class Entry < Thesaurus
+    def add_new_word(word)
+    @words << word
+    return @words
+  end
+
+  def delete_word(word)
+    @words.delete(word)
+    return @words
+  end
+end
+
 RSpec.describe Thesaurus do
   describe '#add_new_word' do
     it 'should return a word if given a word' do
-      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful")
+      thesaurus = Entry.new(word: "happy", synonym: "joyful")
       expect(thesaurus.add_new_word("basketball")).to eq(["happy", "basketball"])
     end
   end
   describe '#delete_word' do
     it 'should delete the word given' do
-      thesaurus = Thesaurus.new(word: "happy")
+      thesaurus = Entry.new(word: "happy")
       thesaurus.add_new_word("basketball")
       thesaurus.add_new_word("lazy")
       expect(thesaurus.delete_word("lazy")).to eq(["happy", "basketball"])
@@ -106,15 +108,15 @@ RSpec.describe Thesaurus do
   end
   describe '#look_up_synonym' do
     it 'should look up the synonym for given word' do
-      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful")
+      thesaurus = Entry.new(word: "happy", synonym: "joyful")
       thesaurus.add_new_word("basketball")
       expect(thesaurus.look_up_synonym("happy")).to eq("joyful")
     end
   end
   describe '#look_up_antonym' do
     it 'should look up the antonym for given word' do
-      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful", antonym: "sad")
-      expect(thesaurus.look_up_antonym("happy")).to eq("sad")
+      thesaurus = Entry.new(word: "happy", synonym: ["joyful"], antonym: ["sad"])
+      expect(thesaurus.look_up_antonym("happy")).to eq(["sad"])
     end
   end
 end
