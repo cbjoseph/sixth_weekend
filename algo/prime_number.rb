@@ -1,15 +1,17 @@
 # Use RSpec to test the following exercise! You may wish to wrap the methods below in a class to help facilitate this.
+require 'rspec'
 require 'prime'
+
 # First, implement the is_prime? method below. It should accept a number as an argument and return
 # true if the number is prime and false if it is not. A prime number is a number that is only
 # divisible by itself and the number 1.
 
-
+class Calculator
 def is_prime?(number)
-  if Prime.instance.prime?(number)
-    puts true
+  if Prime.instance.prime?(number) == true
+     return true
   else
-    puts false
+    return false
   end
 end
 
@@ -25,12 +27,24 @@ def highest_prime_number_under(number)
   end
   all_numbers.each do |one_number|
     if Prime.instance.prime?(one_number)
-      puts one_number
+      return one_number
       break
     end
   end
 end
+end
 
-is_prime?(5)
-
-highest_prime_number_under(10)
+RSpec.describe Calculator do
+  describe '#is_prime?' do
+    it 'should return true if number is prime' do
+      calculator = Calculator.new
+      expect(calculator.is_prime?(5)).to eq(true)
+    end
+  end
+  describe '#highest_prime_number_under' do
+    it 'should return the highest prime number under the number given' do
+      calculator = Calculator.new
+      expect(calculator.highest_prime_number_under(10)).to eq(7)
+    end
+  end
+end
