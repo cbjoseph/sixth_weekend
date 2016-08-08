@@ -41,7 +41,7 @@ require 'rspec'
 #   def add_antonym(antonym)
 #   end
 # end
-# thesaurus = Entry.new(word: "happy", synonym: "joyful", antonym: "angry")
+# thesaurus = Entry.new([word: "happy", {synonym: "joyful"} {antonym: "angry"}])
 # thesaurus.find_synonym
 # thesaurus.find_antonym
 # thesaurus.add_new_word({word: "sad"})
@@ -50,6 +50,8 @@ class Thesaurus
   def initialize(input)
     @words = []
     @words << input[:word]
+    @synonyms = []
+    @synonyms << input[:synonym]
   end
   
   def add_new_word(word)
@@ -61,12 +63,23 @@ class Thesaurus
     @words.delete(word)
     return @words
   end
+
+  def look_up_synonym(word)
+    number = 0
+    @words.length.times do
+      if @words[number] == word
+      return @synonyms[number] 
+      break
+      end
+      number = number + 1
+    end
+  end
 end
 
 RSpec.describe Thesaurus do
   describe '#add_new_word' do
     it 'should return a word if given a word' do
-      thesaurus = Thesaurus.new(word: "happy")
+      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful")
       expect(thesaurus.add_new_word("basketball")).to eq(["happy", "basketball"])
     end
   end
@@ -76,6 +89,13 @@ RSpec.describe Thesaurus do
       thesaurus.add_new_word("basketball")
       thesaurus.add_new_word("lazy")
       expect(thesaurus.delete_word("lazy")).to eq(["happy", "basketball"])
+    end
+  end
+  describe '#look_up_synonym' do
+    it 'should look up the synonym for given word' do
+      thesaurus = Thesaurus.new(word: "happy", synonym: "joyful")
+      thesaurus.add_new_word("basketball")
+      expect(thesaurus.look_up_synonym("happy")).to eq("joyful")
     end
   end
 end
