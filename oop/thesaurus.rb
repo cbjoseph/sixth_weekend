@@ -56,6 +56,11 @@ class Thesaurus
     @words << word
     return @words
   end
+
+  def delete_word(word)
+    @words.delete(word)
+    return @words
+  end
 end
 
 RSpec.describe Thesaurus do
@@ -63,6 +68,14 @@ RSpec.describe Thesaurus do
     it 'should return a word if given a word' do
       thesaurus = Thesaurus.new(word: "happy")
       expect(thesaurus.add_new_word("basketball")).to eq(["happy", "basketball"])
+    end
+  end
+  describe '#delete_word' do
+    it 'should delete the word given' do
+      thesaurus = Thesaurus.new(word: "happy")
+      thesaurus.add_new_word("basketball")
+      thesaurus.add_new_word("lazy")
+      expect(thesaurus.delete_word("lazy")).to eq(["happy", "basketball"])
     end
   end
 end
